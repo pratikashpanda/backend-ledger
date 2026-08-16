@@ -30,14 +30,18 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-// Convert the password into hash everytime a user changes it
+/**
+ * Hash the password before every save that touches it.
+ *
+ * This is an `async` hook, so Mongoose advances the middleware chain when the
+ * returned promise settles — returning early is how you skip the work; there
+ * is no `next` callback to call.
+ */
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) {
-    return next();
+    return;
   }
-  const hash = await bcrypt.hash(this.password, 10);
-  this.password = hash;
-  return;
+  this.password = await bcrypt.hash(this.password, 10);
 });
 
 /**
