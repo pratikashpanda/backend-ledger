@@ -40,6 +40,15 @@ userSchema.pre("save", async function () {
   return;
 });
 
+/**
+ * Compare a plaintext password against this user's bcrypt hash.
+ *
+ * The document must have been loaded with `.select("+password")`, otherwise
+ * `this.password` is `undefined` and the comparison always fails.
+ *
+ * @param {string} password Plaintext password to check.
+ * @returns {Promise<boolean>} `true` when the password matches.
+ */
 userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };

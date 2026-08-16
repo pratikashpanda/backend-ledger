@@ -21,7 +21,18 @@ transporter.verify((error, success) => {
   }
 });
 
-// Function to send email
+/**
+ * Send an email through the shared Gmail OAuth2 transporter.
+ *
+ * Errors are caught and logged, never thrown — callers cannot detect a
+ * failed send.
+ *
+ * @param {string} to Recipient address.
+ * @param {string} subject Subject line.
+ * @param {string} text Plaintext body, used as the fallback.
+ * @param {string} html HTML body.
+ * @returns {Promise<void>}
+ */
 const sendEmail = async (to, subject, text, html) => {
   try {
     const info = await transporter.sendMail({
@@ -39,6 +50,13 @@ const sendEmail = async (to, subject, text, html) => {
   }
 };
 
+/**
+ * Send the branded welcome email after a successful registration.
+ *
+ * @param {string} userEmail Recipient address.
+ * @param {string} name Display name interpolated into the greeting.
+ * @returns {Promise<void>}
+ */
 async function sendRegistrationEmail(userEmail, name) {
   const subject = "Welcome to Backend Ledger!";
   

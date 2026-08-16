@@ -11,12 +11,11 @@ npm start       # node server.js
 
 No test framework is configured — `npm test` exits 1 by design. There is no linter or formatter set up either.
 
-The server port is hardcoded to `3000` in `server.js` (not read from env).
-
 ## Environment
 
 `.env` is loaded by `dotenv` in `server.js` and again in `src/services/email.service.js`. Required keys:
 
+- `PORT` — port passed to `app.listen`, falling back to `3000` if unset
 - `MONGO_URI` — Mongoose connection string; `connectToDB` calls `process.exit(1)` on failure
 - `JWT_SECRET` — signing key for auth tokens
 - `EMAIL_USER`, `CLIENT_ID`, `CLIENT_SECRET`, `REFRESH_TOKEN` — Gmail OAuth2 credentials for nodemailer
@@ -28,7 +27,7 @@ Note: this directory is not a git repo and has no `.gitignore`, so `.env` is cur
 CommonJS Node/Express 5 API backed by MongoDB via Mongoose 9. Strict layer separation:
 
 ```
-server.js            dotenv → connectToDb() → app.listen(3000)
+server.js            dotenv → connectToDb() → app.listen(PORT)
   src/app.js         express app: json + cookieParser middleware, mounts routers
     src/routes/      thin routers, one per feature, mapped 1:1 to controller fns
       src/controllers/   request/response handling + business logic
