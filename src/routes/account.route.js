@@ -13,6 +13,15 @@ const router = express.Router();
  *
  * @see {@link accountController.createAccountController} for body and responses.
  */
-router.post("/create-account", authMiddleware, accountController.createAccountController);
+router.post(
+  "/create-account",
+  authMiddleware,
+  accountController.createAccountController,
+);
+router.get(
+  "/get-accounts",
+  authMiddleware,
+  accountController.getUserAccountsController,
+);
 
 module.exports = router;

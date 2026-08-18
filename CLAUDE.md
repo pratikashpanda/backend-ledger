@@ -13,6 +13,11 @@ No test framework is configured — `npm test` exits 1 by design. There is no li
 
 ## Git workflow
 
+> **Never run `git commit` without the user's explicit approval for that specific commit.**
+> Make the edits, verify them, show what changed, then stop and ask. A prior "yes" does
+> not carry over to the next change. The same applies to `git push`, merges, branch
+> deletion, and anything else that alters history or touches the remote.
+
 Trunk-based development against `main`, which stays deployable at all times. **Never commit directly to `main`.**
 
 Every change — including one-line fixes — follows this loop:
